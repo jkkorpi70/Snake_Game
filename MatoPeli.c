@@ -1,7 +1,7 @@
 //------------------------------------------------------------------
 // Snake game
 // 31.1.2024 Juha Koivukorpi
-// Opikoodia course c-project
+// Opikoodia-kurssin projekti
 // Suomenkielinen versio      
 //------------------------------------------------------------------
 #include <stdio.h>
