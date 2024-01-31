@@ -181,10 +181,6 @@ void readKeyboard(struct Direction *mDir) {
         case 'p':
             key_code = 'p'; // p for pause
             break; 
-        // these could be removed later
-        case 'x':
-            cursorVisible(true); exit(0);
-            break;
         case '0':
             key_code = '0'; // Developer mode
             break;
