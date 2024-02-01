@@ -116,7 +116,6 @@ void saveHighScore() {
 void cutString(char *cutString, int index){ // index is for high score table
     char *retString;
     char cutCharacter[2] = "#"; // This character cuts the string
-
     retString = strtok(cutString, cutCharacter);
     strcpy(highScoreTable[index].initials,retString);
     retString = strtok(NULL, cutCharacter);
