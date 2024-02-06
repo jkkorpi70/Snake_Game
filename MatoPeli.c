@@ -194,7 +194,7 @@ void readKeyboard(struct Direction *mDir) {
 
 // game paused actions
 void gamePaused(){
-    char scrollText[12] = "GAME PAUSED ";
+    char scrollText[12] = "PYSAYTETTY  ";
     char tempChar = ' ';
     while (!kbhit()) {  
         for (int i = 0;i < 12;i++){
