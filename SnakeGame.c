@@ -113,6 +113,7 @@ void saveHighScore() {
     fclose(scoreFile);
 }
 
+// Cuts loaded string line from character #
 void cutString(char *cutString, int index){ // index is for high score table
     char *retString;
     char cutCharacter[2] = "#"; // This character cuts the string
@@ -124,6 +125,7 @@ void cutString(char *cutString, int index){ // index is for high score table
 
 //==================================================================
 
+// Game start count down
 void countDown(){
     setCursorXY(SNAKE_START_X-2,SNAKE_START_Y-4);
     printf("%s","Ready");
@@ -138,7 +140,7 @@ void countDown(){
     printf("%s","      ");
 }
 
-
+// Ask user to press (y)es or (n)o
 bool yesNoInput(){
     while (1) {
         char key_code = _getch(); // get pressed key
@@ -147,10 +149,10 @@ bool yesNoInput(){
     }
 }
 
+// Read keyboard and change moving direction
 void readKeyboard(struct Direction *mDir) { 
     int x = mDir->x , y = mDir->y;
     char key_code = ' ';
-    //getch();
     if (kbhit()) { 
         switch (getch()) { 
         case 75: // left arrow key
@@ -185,7 +187,7 @@ void readKeyboard(struct Direction *mDir) {
             break;
         } 
     }
-    mDir->pressedKey = key_code;
+    mDir->pressedKey = key_code; // Pressed key is also returned in mDir structure
     if (mDir->x == (-x) || mDir->y == (-y)) return; // if direction is inverted (backwards) do not change direction 
     mDir->x = x; mDir->y = y; 
 } 
