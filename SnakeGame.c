@@ -1,7 +1,9 @@
 //------------------------------------------------------------------
 // Snake game
 // 1.2.2024 Juha Koivukorpi
-// Opikoodia course c-project      
+// Opikoodia course c-project 
+//
+// 11.2.2024 Snake demolition added    
 //------------------------------------------------------------------
 #include <stdio.h>
 #include <conio.h>
@@ -52,6 +54,7 @@ void gamePaused();
 void initSnake(struct GameComponent*,int);
 void drawSnake(struct GameComponent*,int);
 void moveSnake(struct GameComponent*, struct Direction, int*, bool);
+void GameOver(struct GameComponent*, int);
 void setFood(struct GameComponent*, struct GameComponent*, int);
 int  checkCollision(struct GameComponent*, int, struct GameComponent*);
 void updateScore(int);
@@ -243,7 +246,7 @@ void moveSnake(struct GameComponent *mySnake, struct Direction mDir, int *snakeL
     // normal movement without extension
     if (extend == false) {  
         for (int i = lenght-1; i > 0; i--){
-            mySnake[i].x = mySnake[i-1].x; // move snake parts from back to front
+            mySnake[i].x = mySnake[i-1].x; // move snake parts forward
             mySnake[i].y = mySnake[i-1].y;
         }
         mySnake[0].x += mDir.x; mySnake[0].y += mDir.y;
@@ -252,7 +255,7 @@ void moveSnake(struct GameComponent *mySnake, struct Direction mDir, int *snakeL
         // extend snake and move only head
         lenght++;       
         for (int i = lenght-1; i > 1; i--){
-            mySnake[i].x = mySnake[i-1].x; // move snake parts from back to front
+            mySnake[i].x = mySnake[i-1].x; // move snake parts forward
             mySnake[i].y = mySnake[i-1].y;
             mySnake[i].character = mySnake[i-1].character;
         }
@@ -260,6 +263,19 @@ void moveSnake(struct GameComponent *mySnake, struct Direction mDir, int *snakeL
         mySnake[0].x += mDir.x; mySnake[0].y += mDir.y; // move head to a new position
         mySnake[1].x = x; mySnake[1].y = y; // bodypart before head gets its old position.
         *snakeL = lenght;  
+    }
+}
+// Delete snake on collision (game over)
+void GameOver(struct GameComponent *mySnake, int snakeL){
+    int lenght = snakeL;
+    mySnake[0].x = mySnake[1].x ; mySnake[0].y = mySnake[1].y; mySnake[1].character = mySnake[0].character;
+    for (int i = snakeL-1; i > 1; i--){ // Move tail to forward
+        if (lenght > 3) mySnake[lenght-4].character = mySnake[lenght-3].character;
+        if (lenght > 2) mySnake[lenght-3].character = mySnake[lenght-2].character;
+        if (lenght > 1) mySnake[lenght-2].character = mySnake[lenght-1].character;
+        lenght--;       
+        drawSnake(mySnake,snakeL);
+        Sleep(100);
     }
 }
 
@@ -349,7 +365,7 @@ void snakeGame (){
     // Create snake and food
     //------------------------------
     struct GameComponent snakePart;
-    int snakeLenght = 6; // initial snake lenght. Minimum is 4, where's 3 visible components
+    int snakeLenght = 6; // 6. initial snake lenght. Minimum is 4, where's 3 visible components
     struct GameComponent *snake;
     snake = malloc(snakeLenght * sizeof(snakePart)); 
     initSnake(snake, snakeLenght);
@@ -416,6 +432,7 @@ void snakeGame (){
         }
     }
     EndGame:
+    GameOver(snake,snakeLenght);
     if (gameScore > 0) checkHighScore(gameScore);      
     free(snake);
 }
